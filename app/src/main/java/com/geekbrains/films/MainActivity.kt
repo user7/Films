@@ -12,6 +12,18 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.button).setOnClickListener {
             val f = Film("123def", "The Silence of the Lambs")
             Toast.makeText(this, "f=$f", Toast.LENGTH_LONG).show()
+
+            val m = mapOf(1 to "a", 2 to "b")
+
+            d("------")
+            for (i in m.keys) {
+                d("$i -> ${m[i]}")
+            }
+
+            d("------")
+            for ((k, v) in m) {
+                d("$k -> $v")
+            }
         }
     }
 }
