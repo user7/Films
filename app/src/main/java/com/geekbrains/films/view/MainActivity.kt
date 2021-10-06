@@ -1,9 +1,8 @@
-package com.geekbrains.films
+package com.geekbrains.films.view
 
 import android.os.Bundle
-import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.geekbrains.films.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
