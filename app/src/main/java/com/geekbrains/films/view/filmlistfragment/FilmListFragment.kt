@@ -5,13 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
-import com.geekbrains.films.R
 import com.geekbrains.films.databinding.FilmListFragmentBinding
 import com.geekbrains.films.viewmodel.FilmsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class FilmListFragment : Fragment(R.layout.film_list_fragment) {
+class FilmListFragment : Fragment() {
     private val model: FilmsViewModel by viewModel()
     private var _binding : FilmListFragmentBinding? = null
     private val binding get() = _binding!!
