@@ -1,7 +1,10 @@
 package com.geekbrains.films.model
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
-data class Film(
+@Parcelize
+data class Film (
     val id: String,
     val title: String,
-    val description: String,
-)
+    val description: String
+) : Parcelable
