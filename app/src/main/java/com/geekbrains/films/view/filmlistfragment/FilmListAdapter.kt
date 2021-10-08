@@ -1,4 +1,4 @@
-package com.geekbrains.films.view
+package com.geekbrains.films.view.filmlistfragment
 
 import android.view.LayoutInflater
 import android.view.View

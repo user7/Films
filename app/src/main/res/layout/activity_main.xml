@@ -8,7 +8,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/film_list_fragment_container"
-        android:name="com.geekbrains.films.view.FilmListFragment"
+        android:name="com.geekbrains.films.view.filmlistfragment.FilmListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:tag="film_list_fragment_tag" />

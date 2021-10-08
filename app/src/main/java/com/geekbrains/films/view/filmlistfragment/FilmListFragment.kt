@@ -1,10 +1,9 @@
-package com.geekbrains.films.view
+package com.geekbrains.films.view.filmlistfragment
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.geekbrains.films.R
 import com.geekbrains.films.viewmodel.FilmsViewModel
