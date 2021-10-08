@@ -13,7 +13,6 @@ class FilmListAdapter(val model: FilmsViewModel, val filmListFragment: FilmListF
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById(R.id.film_list_item_title)
-        val desc: TextView = view.findViewById(R.id.film_list_item_desc)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -24,7 +23,6 @@ class FilmListAdapter(val model: FilmsViewModel, val filmListFragment: FilmListF
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.title.text = model.getData()[position].title
-        holder.desc.text = model.getData()[position].description
     }
 
     override fun getItemCount(): Int = model.getData().size
