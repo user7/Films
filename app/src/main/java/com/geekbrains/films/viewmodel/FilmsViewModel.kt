@@ -10,4 +10,5 @@ class FilmsViewModel : ViewModel() {
     )
 
     fun getData(): List<Film> = data
+
 }
