@@ -17,7 +17,7 @@ class FilmListAdapter(val model: FilmsViewModel, val filmListFragment: FilmListF
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_film_list, parent, false)
+            .inflate(R.layout.film_list_item, parent, false)
         return ViewHolder(view)
     }
 

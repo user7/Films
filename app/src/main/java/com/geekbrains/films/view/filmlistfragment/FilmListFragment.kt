@@ -1,20 +1,38 @@
 package com.geekbrains.films.view.filmlistfragment
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.geekbrains.films.R
+import com.geekbrains.films.databinding.FilmListFragmentBinding
 import com.geekbrains.films.viewmodel.FilmsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class FilmListFragment : Fragment(R.layout.fragment_film_list) {
+class FilmListFragment : Fragment(R.layout.film_list_fragment) {
     private val model: FilmsViewModel by viewModel()
+    private var _binding : FilmListFragmentBinding? = null
+    private val binding get() = _binding!!
     private lateinit var adapter: FilmListAdapter
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FilmListFragmentBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = FilmListAdapter(model, this)
-        view.findViewById<RecyclerView>(R.id.recyclerview_films).adapter = adapter
+        binding.recyclerviewFilms.adapter = FilmListAdapter(model, this)
     }
 }
