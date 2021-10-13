@@ -1,4 +1,4 @@
-package com.geekbrains.films
+package com.geekbrains.films.model
 
 class FilmRepositoryTMDB {
     companion object {
