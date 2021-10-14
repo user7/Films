@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.geekbrains.films.R
-import com.geekbrains.films.d
 import com.geekbrains.films.view.filmdetailsfragment.FilmDetailsFragment
 import com.geekbrains.films.viewmodel.FilmsViewModel
 
@@ -20,15 +19,16 @@ class FilmListAdapter(val model: FilmsViewModel, val filmListFragment: FilmListF
         init {
             view.setOnClickListener {
                 val film = model.getData()[adapterPosition]
-                val manager = filmListFragment.activity?.supportFragmentManager
-                manager?.let {
+                filmListFragment.activity?.supportFragmentManager?.let { manager ->
                     val bundle = Bundle()
                     bundle.putParcelable(FilmDetailsFragment.BUNDLE_ID, film)
-                    val fragment = FilmDetailsFragment.newInstance(bundle)
-                    it.beginTransaction()
-                        .add(R.id.film_list_fragment_container, fragment)
+                    val detailsFragment = FilmDetailsFragment.newInstance(bundle)
+                    val listFragment = manager.findFragmentByTag("film_list_fragment_tag")!!
+                    manager.beginTransaction()
+                        .add(R.id.film_list_fragment_container, detailsFragment)
+                        .hide(listFragment)
                         .addToBackStack("")
-                        .commitAllowingStateLoss()
+                        .commit()
                 }
             }
         }
