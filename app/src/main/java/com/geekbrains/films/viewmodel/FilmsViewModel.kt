@@ -1,14 +1,62 @@
 package com.geekbrains.films.viewmodel
 
+import android.graphics.Bitmap
+import android.os.Handler
+import android.os.Looper
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.geekbrains.films.model.Film
+import com.geekbrains.films.d
+import com.geekbrains.films.model.*
+import com.geekbrains.films.model.rest.FilmSearchResultDTO
 
 class FilmsViewModel : ViewModel() {
-    private val data: ArrayList<Film> = arrayListOf(
-        Film("1", "World War Z", "Zombies running all around."),
-        Film("2", "28 Days Later", "Zombies eat British people!")
-    )
+    private val handler = Handler(Looper.getMainLooper())
+    private val images = HashMap<ImageID, Bitmap>()
+    private val mFilmList = MutableLiveData(Films())
+    var filmList: LiveData<Films> = mFilmList
+    fun getData() = filmList.value!!
 
-    fun getData(): List<Film> = data
+    private val mImageAvailable = MutableLiveData<ImageID>()
+    var imageAvailable: LiveData<ImageID> = mImageAvailable
 
+    fun getImage(id: ImageID): Bitmap? {
+        val bitmap = images.getOrDefault(id, null)
+        if (bitmap == null) {
+            FilmRepository.fetchImage(id) { handler.post { handleFetchedImage(id, it) } }
+        }
+        return bitmap
+    }
+
+    private fun handleFetchedImage(id: ImageID, bitmap: Bitmap) {
+        images.set(id, bitmap)
+        mImageAvailable.postValue(id)
+    }
+
+    fun findFilms(words: String) {
+        if (words.isEmpty())
+            return
+        mFilmList.postValue(Films()) // clear current films list
+        FilmRepository.findFilms(words) { handler.post { handleSearchResults(it) } }
+    }
+
+    private fun handleSearchResults(result: FilmSearchResultDTO) {
+        // TODO fetch other pages
+        val oldData = getData()
+        val newData = oldData.clone() as Films
+        for (f in result.results) {
+            if (f.id == null || f.title == null) {
+                d("invalid entry in search results: $f")
+                continue
+            }
+            val film = Film(
+                f.id,
+                f.title,
+                f.overview ?: "",
+                f.poster_path ?: ""
+            )
+            newData.add(film)
+        }
+        mFilmList.postValue(newData)
+    }
 }
