@@ -7,10 +7,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.geekbrains.films.databinding.FilmDetailsFragmentBinding
 import com.geekbrains.films.model.Film
+import com.geekbrains.films.model.ImageID
+import com.geekbrains.films.viewmodel.FilmsViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FilmDetailsFragment : Fragment() {
-    private var _binding : FilmDetailsFragmentBinding? = null
+    private var _binding: FilmDetailsFragmentBinding? = null
     private val binding get() = _binding!!
+    private val model: FilmsViewModel by viewModel()
+    private var imageID = ImageID()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,6 +31,12 @@ class FilmDetailsFragment : Fragment() {
         arguments?.getParcelable<Film>(BUNDLE_ID)?.let { film ->
             binding.filmDetailsDescription.text = film.description
             binding.filmDetailsTitle.text = film.title
+            imageID = film.poster
+            model.getImage(imageID)?.let { binding.filmDetailsPoster.setImageBitmap(it) }
+            model.imageAvailable.observe(viewLifecycleOwner) {
+                if (it == imageID)
+                    binding.filmDetailsPoster.setImageBitmap(model.getImage(imageID))
+            }
         }
     }
 
@@ -37,7 +48,7 @@ class FilmDetailsFragment : Fragment() {
     companion object {
         const val BUNDLE_ID = "Film"
 
-        fun newInstance(bundle: Bundle) : FilmDetailsFragment {
+        fun newInstance(bundle: Bundle): FilmDetailsFragment {
             val fragment = FilmDetailsFragment()
             fragment.arguments = bundle
             return fragment
