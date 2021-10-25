@@ -30,11 +30,11 @@ class FilmListFragment : Fragment() {
         _binding = null
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
         super.onViewCreated(view, savedInstanceState)
-        binding.recyclerviewFilms.adapter = FilmListAdapter(model, this)
-        binding.buttonSearch.setOnClickListener {
-            model.findFilms(binding.editSearch.text.toString())
+        recyclerviewFilms.adapter = FilmListAdapter(model, this@FilmListFragment)
+        buttonSearch.setOnClickListener {
+            model.findFilms(editSearch.text.toString())
         }
     }
 

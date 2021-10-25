@@ -14,23 +14,22 @@ object HttpClient {
         onError: ((String) -> Unit)?
     ) {
         Thread {
-            var urlConnection: HttpsURLConnection? = null
             try {
-                urlConnection = URL(url).openConnection() as HttpsURLConnection
-                urlConnection.requestMethod = "GET"
-                urlConnection.readTimeout = 3000
-                val bytes = ByteArrayOutputStream()
-                urlConnection.inputStream.copyTo(bytes, 1600)
-                try {
-                    onSuccess(bytes.toByteArray())
-                } catch (e: Exception) {
-                    d("callback error: $e")
+                with (URL(url).openConnection() as HttpsURLConnection) {
+                    requestMethod = "GET"
+                    readTimeout = 3000
+                    val bytes = ByteArrayOutputStream()
+                    inputStream.copyTo(bytes, 1600)
+                    try {
+                        onSuccess(bytes.toByteArray())
+                    } catch (e: Exception) {
+                        d("callback error: $e")
+                    }
+                    disconnect()
                 }
             } catch (e: Exception) {
                 d("connection error: $e")
-                onError?.let { it(e.toString()) }
-            } finally {
-                urlConnection?.disconnect()
+                onError?.let { onError(e.toString()) }
             }
         }.start()
     }
