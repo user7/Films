@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.geekbrains.films.d
 import com.geekbrains.films.databinding.FilmListFragmentBinding
+import com.geekbrains.films.services.UrlFetchService
 import com.geekbrains.films.viewmodel.FilmsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -34,7 +35,8 @@ class FilmListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         recyclerviewFilms.adapter = FilmListAdapter(model, this@FilmListFragment)
         buttonSearch.setOnClickListener {
-            model.findFilms(editSearch.text.toString())
+            // model.findFilms(editSearch.text.toString())
+            UrlFetchService.start(requireContext(), editSearch.text.toString())
         }
     }
 
