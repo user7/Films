@@ -5,20 +5,37 @@ import android.content.Context
 import android.content.Intent
 import android.os.*
 import com.geekbrains.films.d
-import java.util.*
-import kotlin.collections.ArrayDeque
-import java.util.concurrent.locks.Lock
-import java.util.concurrent.locks.ReentrantLock
+import java.io.ByteArrayOutputStream
+import java.net.URL
+import javax.net.ssl.HttpsURLConnection
 
 class UrlFetchService : Service() {
-    private val queue = ArrayDeque<String>()
     private var serviceLooper: Looper? = null
     private var serviceHandler: ServiceHandler? = null
 
     private inner class ServiceHandler(looper: Looper) : Handler(looper) {
-        var i = 0
         override fun handleMessage(msg: Message) {
-            // TODO fetch url here
+            val urlString = msg.data.getString(KEY_URL)
+            d("fetching $urlString")
+            var conn: HttpsURLConnection? = null
+            try {
+                val bytes = ByteArrayOutputStream()
+                conn = URL(urlString).openConnection() as HttpsURLConnection
+                with(conn) {
+                    requestMethod = "GET"
+                    readTimeout = 3000
+                    inputStream.copyTo(bytes, 1600)
+                }
+                val intent = Intent(ACTION_URL_FETCHED)
+                intent.putExtra(KEY_URL, urlString)
+                intent.putExtra(KEY_BYTES, bytes.toByteArray())
+                d("encoding ${conn.contentEncoding}")
+                sendBroadcast(intent)
+            } catch (e: Exception) {
+                d("connection error $e")
+            } finally {
+                conn?.disconnect()
+            }
             stopSelf(msg.arg1)
         }
     }
@@ -48,15 +65,18 @@ class UrlFetchService : Service() {
 
     companion object {
         const val KEY_URL = "u"
+        const val KEY_BYTES = "b"
+        const val ACTION_URL_FETCHED = "com.geekbrains.films.url_fetched"
+        var context: Context? = null
 
-        fun start(context: Context, url: String) {
+        fun start(url: String) {
             val intent = Intent(context, UrlFetchService::class.java)
             intent.putExtra(KEY_URL, url)
-            context.startService(intent)
+            context?.startService(intent)
         }
 
-        fun stop(context: Context) {
-            context.startService(Intent(context, UrlFetchService::class.java))
+        fun stop() {
+            context?.startService(Intent(context, UrlFetchService::class.java))
         }
     }
 }

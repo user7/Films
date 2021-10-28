@@ -1,5 +1,6 @@
 package com.geekbrains.films.viewmodel
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.os.Handler
 import android.os.Looper
@@ -9,6 +10,7 @@ import androidx.lifecycle.ViewModel
 import com.geekbrains.films.d
 import com.geekbrains.films.model.*
 import com.geekbrains.films.model.rest.FilmSearchResultDTO
+import com.geekbrains.films.services.UrlFetchService
 
 class FilmsViewModel : ViewModel() {
     private val handler = Handler(Looper.getMainLooper())
@@ -23,25 +25,25 @@ class FilmsViewModel : ViewModel() {
     fun getImage(id: ImageID): Bitmap? {
         val bitmap = images.getOrDefault(id, null)
         if (bitmap == null) {
-            FilmRepository.fetchImage(id) { handler.post { handleFetchedImage(id, it) } }
+            FilmRepository.fetchImage(id)
         }
         return bitmap
     }
 
-    private fun handleFetchedImage(id: ImageID, bitmap: Bitmap) {
+    fun handleFetchedImage(id: ImageID, bitmap: Bitmap) {
         images.set(id, bitmap)
         mImageAvailable.postValue(id)
     }
 
-    fun findFilms(words: String) {
+    fun findFilms(context: Context, words: String) {
         if (words.isEmpty())
             return
+
         mFilmList.postValue(Films()) // clear current films list
-        FilmRepository.findFilms(words) { handler.post { handleSearchResults(it) } }
+        FilmRepository.findFilms(words)
     }
 
-    private fun handleSearchResults(result: FilmSearchResultDTO) {
-        // TODO fetch other pages
+    fun handleSearchResults(result: FilmSearchResultDTO) {
         val oldData = getData()
         val newData = oldData.clone() as Films
         for (f in result.results) {
