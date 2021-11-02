@@ -1,6 +1,5 @@
-package com.geekbrains.films.model.repository.threaded
+package com.geekbrains.films.model.repository.transport.util
 
-import com.geekbrains.films.d
 import java.io.ByteArrayOutputStream
 import java.net.URL
 import java.nio.charset.StandardCharsets

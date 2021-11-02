@@ -33,7 +33,7 @@ class FilmListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         recyclerviewFilms.adapter = FilmListAdapter(model, this@FilmListFragment)
         buttonSearch.setOnClickListener {
-            model.findFilms(requireContext(), editSearch.text.toString())
+            model.findFilms(editSearch.text.toString())
         }
     }
 

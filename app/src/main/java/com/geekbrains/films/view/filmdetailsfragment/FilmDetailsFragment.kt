@@ -10,7 +10,6 @@ import com.geekbrains.films.model.Film
 import com.geekbrains.films.model.ImageID
 import com.geekbrains.films.viewmodel.FilmsViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FilmDetailsFragment : Fragment() {
     private var _binding: FilmDetailsFragmentBinding? = null

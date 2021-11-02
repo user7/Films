@@ -1,6 +1,5 @@
 package com.geekbrains.films.viewmodel
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.os.Handler
 import android.os.Looper
@@ -11,7 +10,6 @@ import com.geekbrains.films.d
 import com.geekbrains.films.model.*
 import com.geekbrains.films.model.repository.FilmRepository
 import com.geekbrains.films.model.rest.FilmSearchResultDTO
-import org.koin.android.ext.koin.androidContext
 
 class FilmsViewModel(private val filmRepository: FilmRepository) : ViewModel() {
     private val handler = Handler(Looper.getMainLooper())
@@ -36,9 +34,10 @@ class FilmsViewModel(private val filmRepository: FilmRepository) : ViewModel() {
         return bitmap
     }
 
-    fun findFilms(context: Context, words: String) {
-        if (words.isEmpty())
+    fun findFilms(words: String) {
+        if (words.isEmpty()) {
             return
+        }
 
         mFilmList.postValue(Films()) // clear current films list
         filmRepository.findFilms(words) { handleSearchResults(it) }
