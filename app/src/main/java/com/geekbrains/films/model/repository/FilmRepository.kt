@@ -3,7 +3,7 @@ package com.geekbrains.films.model.repository
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.geekbrains.films.model.repository.transport.HttpTransport
-import com.geekbrains.films.model.rest.FilmSearchResultDTO
+import com.geekbrains.films.model.repository.transport.rest.FilmSearchResultDTO
 import com.google.gson.Gson
 import java.net.URLEncoder
 

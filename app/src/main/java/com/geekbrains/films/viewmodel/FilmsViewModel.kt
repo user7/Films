@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModel
 import com.geekbrains.films.d
 import com.geekbrains.films.model.*
 import com.geekbrains.films.model.repository.FilmRepository
-import com.geekbrains.films.model.rest.FilmSearchResultDTO
+import com.geekbrains.films.model.repository.transport.rest.FilmSearchResultDTO
 
 class FilmsViewModel(private val filmRepository: FilmRepository) : ViewModel() {
     private val handler = Handler(Looper.getMainLooper())
