@@ -5,13 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.geekbrains.films.d
 import com.geekbrains.films.databinding.FilmListFragmentBinding
 import com.geekbrains.films.viewmodel.FilmsViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class FilmListFragment : Fragment() {
-    private val model: FilmsViewModel by viewModel()
+    private val model by sharedViewModel<FilmsViewModel>()
     private var _binding: FilmListFragmentBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: FilmListAdapter

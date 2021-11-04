@@ -8,9 +8,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.geekbrains.films.d
 import com.geekbrains.films.model.*
-import com.geekbrains.films.model.rest.FilmSearchResultDTO
+import com.geekbrains.films.model.repository.FilmRepository
+import com.geekbrains.films.model.repository.transport.rest.FilmSearchResultDTO
 
-class FilmsViewModel : ViewModel() {
+class FilmsViewModel(private val filmRepository: FilmRepository) : ViewModel() {
     private val handler = Handler(Looper.getMainLooper())
     private val images = HashMap<ImageID, Bitmap>()
     private val mFilmList = MutableLiveData(Films())
@@ -23,25 +24,26 @@ class FilmsViewModel : ViewModel() {
     fun getImage(id: ImageID): Bitmap? {
         val bitmap = images.getOrDefault(id, null)
         if (bitmap == null) {
-            FilmRepository.fetchImage(id) { handler.post { handleFetchedImage(id, it) } }
+            filmRepository.fetchImage(id) { bitmap ->
+                handler.post {
+                    images.set(id, bitmap)
+                    mImageAvailable.postValue(id)
+                }
+            }
         }
         return bitmap
     }
 
-    private fun handleFetchedImage(id: ImageID, bitmap: Bitmap) {
-        images.set(id, bitmap)
-        mImageAvailable.postValue(id)
-    }
-
     fun findFilms(words: String) {
-        if (words.isEmpty())
+        if (words.isEmpty()) {
             return
+        }
+
         mFilmList.postValue(Films()) // clear current films list
-        FilmRepository.findFilms(words) { handler.post { handleSearchResults(it) } }
+        filmRepository.findFilms(words) { handleSearchResults(it) }
     }
 
-    private fun handleSearchResults(result: FilmSearchResultDTO) {
-        // TODO fetch other pages
+    fun handleSearchResults(result: FilmSearchResultDTO) {
         val oldData = getData()
         val newData = oldData.clone() as Films
         for (f in result.results) {

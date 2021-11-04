@@ -26,13 +26,11 @@ class FilmListAdapter(val model: FilmsViewModel, val filmListFragment: FilmListF
         model.imageAvailable.observe(filmListFragment.viewLifecycleOwner) { imageID ->
             d("image updated $imageID")
             model.getImage(imageID)?.let { image ->
-                if (image != null) {
-                    val index = model.getData().indexOfFirst { it.poster == imageID }
-                    if (index != -1) {
-                        filmListFragment.findViewHolder(index)?.let {
-                            it.setImageBitmap(image)
-                            notifyItemChanged(index)
-                        }
+                val index = model.getData().indexOfFirst { it.poster == imageID }
+                if (index != -1) {
+                    filmListFragment.findViewHolder(index)?.let {
+                        it.setImageBitmap(image)
+                        notifyItemChanged(index)
                     }
                 }
             }

@@ -1,4 +1,4 @@
-package com.geekbrains.films.model.rest
+package com.geekbrains.films.model.repository.transport.rest
 
 data class FilmItemDTO(
     val id: Int?,

@@ -9,19 +9,19 @@ import com.geekbrains.films.databinding.FilmDetailsFragmentBinding
 import com.geekbrains.films.model.Film
 import com.geekbrains.films.model.ImageID
 import com.geekbrains.films.viewmodel.FilmsViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class FilmDetailsFragment : Fragment() {
     private var _binding: FilmDetailsFragmentBinding? = null
     private val binding get() = _binding!!
-    private val model: FilmsViewModel by viewModel()
+    private val model by sharedViewModel<FilmsViewModel>()
     private var imageID = ImageID()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FilmDetailsFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
