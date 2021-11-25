@@ -8,10 +8,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.geekbrains.films.d
 import com.geekbrains.films.model.*
-import com.geekbrains.films.model.repository.FilmRepositoryHttp
+import com.geekbrains.films.model.repository.FilmRepository
 import com.geekbrains.films.model.repository.transport.rest.FilmSearchResultDTO
 
-class FilmsViewModel(private val filmRepository: FilmRepositoryHttp) : ViewModel() {
+class FilmsViewModel(private val filmRepository: FilmRepository) : ViewModel() {
     private val handler = Handler(Looper.getMainLooper())
     private val images = HashMap<ImageID, Bitmap>()
     private val mFilmList = MutableLiveData(Films())
