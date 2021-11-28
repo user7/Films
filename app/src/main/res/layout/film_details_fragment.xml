@@ -25,6 +25,8 @@
         android:id="@+id/film_details_description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/film_details_poster"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toEndOf="@+id/film_details_poster"
         app:layout_constraintTop_toBottomOf="@+id/film_details_title" />
