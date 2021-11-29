@@ -9,15 +9,19 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.geekbrains.films.R
 import com.geekbrains.films.d
+import com.geekbrains.films.model.db.FilmDatabaseHolder
+import com.geekbrains.films.model.db.FilmEntity
 import com.geekbrains.films.services.ConnectivityBroadcastReceiver
 
 import com.geekbrains.films.viewmodel.FilmsViewModel
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 private const val KEY_ADULT = "a"
 
 class MainActivity : AppCompatActivity() {
     private val model by viewModel<FilmsViewModel>()
+    private val dbh : FilmDatabaseHolder by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
