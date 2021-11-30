@@ -19,8 +19,8 @@
 
     <ImageButton
         android:id="@+id/button_search"
-        android:layout_width="54dp"
-        android:layout_height="45dp"
+        android:layout_width="@dimen/search_button_width"
+        android:layout_height="@dimen/search_button_height"
         android:contentDescription="@string/button_search_desc"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/edit_search"
