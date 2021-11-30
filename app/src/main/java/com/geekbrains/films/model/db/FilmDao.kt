@@ -9,7 +9,7 @@ interface FilmDao {
     fun queryFilm(id: FilmID): List<FilmEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertFilm(filmEntity: FilmEntity)
+    fun upsertFilm(filmEntity: FilmEntity)
 
     @Delete
     fun deleteFilm(filmEntity: FilmEntity)

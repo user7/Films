@@ -21,7 +21,6 @@ private const val KEY_ADULT = "a"
 
 class MainActivity : AppCompatActivity() {
     private val model by viewModel<FilmsViewModel>()
-    private val dbh : FilmDatabaseHolder by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
