@@ -8,6 +8,6 @@ interface FilmRepository {
         const val TMDB_KEY3 = "80741e82e9f539526693f267ad1f5b10"
     }
 
-    fun findFilms(words: String, callback: (FilmSearchResultDTO) -> Unit)
+    fun findFilms(query: String, callback: (FilmSearchResultDTO) -> Unit)
     fun fetchImage(path: String, callback: (Bitmap) -> Unit)
 }

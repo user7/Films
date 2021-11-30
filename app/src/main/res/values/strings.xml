@@ -4,4 +4,7 @@
     <string name="button_search_desc">Search</string>
     <string name="edit_search_hint">Search</string>
     <string name="film_details_poster_desc">Poster</string>
+    <string name="show_adult_content">Show Adult Content</string>
+    <string name="comment_save_label">Save</string>
+    <string name="comment_discard_label">Discard</string>
 </resources>

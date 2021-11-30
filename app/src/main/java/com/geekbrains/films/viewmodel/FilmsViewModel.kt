@@ -21,6 +21,9 @@ class FilmsViewModel(private val filmRepository: FilmRepository) : ViewModel() {
     private val mImageAvailable = MutableLiveData<ImageID>()
     var imageAvailable: LiveData<ImageID> = mImageAvailable
 
+    private val mAppSettings = MutableLiveData<AppSettings>(AppSettings())
+    var appSettings: LiveData<AppSettings> = mAppSettings
+
     fun getImage(id: ImageID): Bitmap? {
         val bitmap = images.getOrDefault(id, null)
         if (bitmap == null) {
@@ -60,5 +63,9 @@ class FilmsViewModel(private val filmRepository: FilmRepository) : ViewModel() {
             newData.add(film)
         }
         mFilmList.postValue(newData)
+    }
+
+    fun setAdultContent(enabled: Boolean) {
+        mAppSettings.postValue(mAppSettings.value?.copy(adultContent = enabled))
     }
 }
