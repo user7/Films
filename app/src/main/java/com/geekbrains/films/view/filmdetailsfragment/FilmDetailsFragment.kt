@@ -44,7 +44,7 @@ class FilmDetailsFragment : Fragment() {
             binding.filmDetailsCommentSave.isEnabled = false
             lastComment = comment
             // кнопка save включена, когда текст отличается от lastComment
-            binding.filmDetailsComment.doOnTextChanged { text, start, before, count ->
+            binding.filmDetailsComment.doOnTextChanged { _, _, _, _ ->
                 binding.filmDetailsCommentSave.isEnabled =
                     binding.filmDetailsComment.text.toString() != lastComment
             }
