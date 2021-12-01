@@ -7,4 +7,6 @@
     <string name="show_adult_content">Show Adult Content</string>
     <string name="comment_save_label">Save</string>
     <string name="comment_discard_label">Discard</string>
+    <string name="content_provider">Content Provider</string>
+    <string name="need_permissions_to_read_contacts">Need contacts permission</string>
 </resources>

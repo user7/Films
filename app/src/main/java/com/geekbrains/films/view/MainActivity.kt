@@ -8,13 +8,10 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.geekbrains.films.R
-import com.geekbrains.films.d
-import com.geekbrains.films.model.db.FilmDatabaseHolder
-import com.geekbrains.films.model.db.FilmEntity
 import com.geekbrains.films.services.ConnectivityBroadcastReceiver
+import com.geekbrains.films.view.contacts.ContactsFragment
 
 import com.geekbrains.films.viewmodel.FilmsViewModel
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 private const val KEY_ADULT = "a"
@@ -49,13 +46,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.menu_item_adult) {
-            val checked = !item.isChecked
-            model.setAdultContent(checked)
-            item.setChecked(checked)
-            return true
+        return when (item.itemId) {
+            R.id.menu_item_adult -> {
+                val checked = !item.isChecked
+                model.setAdultContent(checked)
+                item.setChecked(checked)
+                return true
+            }
+            R.id.item_menu_contacts -> {
+                val manager = supportFragmentManager
+                manager.beginTransaction()
+                    .add(R.id.film_list_fragment_container, ContactsFragment())
+                    .hide(manager.findFragmentByTag("film_list_fragment_tag")!!)
+                    .addToBackStack("")
+                    .commit()
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
     }
 
 }
