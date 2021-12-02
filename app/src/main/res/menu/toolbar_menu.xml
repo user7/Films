@@ -17,5 +17,9 @@
         android:title="@string/content_provider"
         app:showAsAction= "never" />
 
+    <item
+        android:id="@+id/item_menu_map"
+        android:title="@string/map"
+        app:showAsAction= "never" />
 
 </menu>

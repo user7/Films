@@ -7,9 +7,11 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.geekbrains.films.R
 import com.geekbrains.films.services.ConnectivityBroadcastReceiver
 import com.geekbrains.films.view.contacts.ContactsFragment
+import com.geekbrains.films.view.map.MapsFragment
 
 import com.geekbrains.films.viewmodel.FilmsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -45,6 +47,16 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    private fun showFragment(fragment: Fragment) : Boolean {
+        val manager = supportFragmentManager
+        manager.beginTransaction()
+            .add(R.id.film_list_fragment_container, fragment)
+            .hide(manager.findFragmentByTag("film_list_fragment_tag")!!)
+            .addToBackStack("")
+            .commit()
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_item_adult -> {
@@ -53,15 +65,8 @@ class MainActivity : AppCompatActivity() {
                 item.setChecked(checked)
                 return true
             }
-            R.id.item_menu_contacts -> {
-                val manager = supportFragmentManager
-                manager.beginTransaction()
-                    .add(R.id.film_list_fragment_container, ContactsFragment())
-                    .hide(manager.findFragmentByTag("film_list_fragment_tag")!!)
-                    .addToBackStack("")
-                    .commit()
-                return true
-            }
+            R.id.item_menu_contacts -> showFragment(ContactsFragment())
+            R.id.item_menu_map -> showFragment(MapsFragment())
             else -> super.onOptionsItemSelected(item)
         }
     }

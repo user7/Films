@@ -1,4 +1,5 @@
 <resources>
+    <string name="google_maps_key" translatable="false">AIzaSyBpKK3IaDb2Z_n6puQl1RpRURJB3bpzA8c</string>
     <string name="app_name">Films</string>
     <string name="button_label">Button</string>
     <string name="button_search_desc">Search</string>
@@ -9,4 +10,5 @@
     <string name="comment_discard_label">Discard</string>
     <string name="content_provider">Content Provider</string>
     <string name="need_permissions_to_read_contacts">Need contacts permission</string>
+    <string name="map">Map</string>
 </resources>
