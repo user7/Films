@@ -11,4 +11,5 @@
     <string name="content_provider">Content Provider</string>
     <string name="need_permissions_to_read_contacts">Need contacts permission</string>
     <string name="map">Map</string>
+    <string name="start_marker">Start marker</string>
 </resources>

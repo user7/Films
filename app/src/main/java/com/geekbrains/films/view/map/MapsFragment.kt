@@ -3,6 +3,7 @@ package com.geekbrains.films.view.map
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
+import android.graphics.Color
 import androidx.fragment.app.Fragment
 
 import android.os.Bundle
@@ -21,6 +22,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 
@@ -30,23 +32,32 @@ class MapsFragment : Fragment(), CoroutineScope by MainScope() {
     private val markers: ArrayList<Marker> = ArrayList()
     private var _binding: MapsFragmentBinding? = null
     private val binding get() = _binding!!
+    private var i = 0;
 
     @SuppressLint("MissingPermission")
     private val callback = OnMapReadyCallback { googleMap ->
         map = googleMap
         map.uiSettings.isZoomControlsEnabled = true
         map.uiSettings.isMyLocationButtonEnabled = true
-
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            map.isMyLocationEnabled = true
-        }
-
         val place = LatLng(44.952117, 34.102417)
+        val marker = googleMap.addMarker(
+            MarkerOptions().position(place).title(getString(R.string.start_marker))
+        )
+        marker?.let { markers.add(marker) }
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(place))
+        googleMap.setOnMapLongClickListener { latLng ->
+            ++i
+            val prev = markers.last().position
+            setMarker(latLng, "long click $i")
+            val cur = markers.last().position
+            map.addPolyline(PolylineOptions().add(prev, cur).color(Color.RED).width(5f))
+        }
+    }
+
+    private fun setMarker(position: LatLng, title: String) {
+        map.addMarker(
+            MarkerOptions().position(position).title(title)
+        )?.let { markers.add(it) }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
