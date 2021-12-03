@@ -9,6 +9,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.geekbrains.films.R
+import com.geekbrains.films.d
 import com.geekbrains.films.services.ConnectivityBroadcastReceiver
 import com.geekbrains.films.view.contacts.ContactsFragment
 import com.geekbrains.films.view.map.MapsFragment
@@ -29,6 +30,8 @@ class MainActivity : AppCompatActivity() {
             IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         )
         setSupportActionBar(findViewById(R.id.toolbar))
+        val ticketId = intent.extras?.getString("TICKET_ID") ?: "null"
+        d("ticketId: $ticketId")
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
