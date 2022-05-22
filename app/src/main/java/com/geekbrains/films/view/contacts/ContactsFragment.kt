@@ -82,9 +82,9 @@ class ContactsFragment : Fragment() {
             cursor?.let { cursor_ ->
                 for (i in 0..cursor_.count) {
                     if (cursor_.moveToPosition(i)) {
-                        val name = cursor_.getString(
-                            cursor_.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)
-                        )
+                        val col = cursor_.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)
+                        assert(col >= 0)
+                        val name = cursor_.getString(col)
                         addView(name)
                     }
                 }
