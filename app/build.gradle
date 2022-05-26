@@ -9,7 +9,7 @@ plugins {
 android {
     signingConfigs {
         debug {
-            storeFile file('keystore.jsk')
+            storeFile file('keystore.jks')
             storePassword '123456'
             keyPassword '123456'
             keyAlias 'key0'
@@ -80,6 +80,9 @@ dependencies {
     annotationProcessor 'androidx.room:room-compiler:2.4.2'
     // google maps 
     implementation 'com.google.android.gms:play-services-maps:18.0.0'
+    debugImplementation 'androidx.fragment:fragment-testing:1.4.1'
+    //Espresso RecyclerView
+    debugImplementation 'androidx.test.espresso:espresso-contrib:3.4.0'
 }
 repositories {
     mavenCentral()
