@@ -21,7 +21,7 @@ class FilmsViewModel(private val filmRepository: FilmRepository) : ViewModel() {
     private val mImageAvailable = MutableLiveData<ImageID>()
     var imageAvailable: LiveData<ImageID> = mImageAvailable
 
-    private val mAppSettings = MutableLiveData<AppSettings>(AppSettings())
+    private val mAppSettings = MutableLiveData(AppSettings())
     var appSettings: LiveData<AppSettings> = mAppSettings
 
     fun getImage(id: ImageID): Bitmap? {
@@ -29,7 +29,7 @@ class FilmsViewModel(private val filmRepository: FilmRepository) : ViewModel() {
         if (bitmap == null) {
             filmRepository.fetchImage(id) { bitmap ->
                 handler.post {
-                    images.set(id, bitmap)
+                    images[id] = bitmap
                     mImageAvailable.postValue(id)
                 }
             }
@@ -46,7 +46,7 @@ class FilmsViewModel(private val filmRepository: FilmRepository) : ViewModel() {
         filmRepository.findFilms(words) { handleSearchResults(it) }
     }
 
-    fun handleSearchResults(result: FilmSearchResultDTO) {
+    private fun handleSearchResults(result: FilmSearchResultDTO) {
         val oldData = getData()
         val newData = oldData.clone() as Films
         for (f in result.results) {
