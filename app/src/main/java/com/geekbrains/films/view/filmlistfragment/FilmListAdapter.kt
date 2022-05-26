@@ -10,7 +10,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.geekbrains.films.R
 import com.geekbrains.films.d
-import com.geekbrains.films.model.Films
 import com.geekbrains.films.view.filmdetailsfragment.FilmDetailsFragment
 import com.geekbrains.films.viewmodel.FilmsViewModel
 
@@ -25,11 +24,10 @@ class FilmListAdapter(val model: FilmsViewModel, val filmListFragment: FilmListF
 
         model.imageAvailable.observe(filmListFragment.viewLifecycleOwner) { imageID ->
             d("image updated $imageID")
-            model.getImage(imageID)?.let { image ->
-                val index = model.getData().indexOfFirst { it.poster == imageID }
-                if (index != -1) {
-                    filmListFragment.findViewHolder(index)?.let {
-                        it.setImageBitmap(image)
+            model.getData().forEachIndexed { index, element ->
+                model.needsShowing(element.poster)?.let { bitmap ->
+                    filmListFragment.findViewHolder(index)?.let { viewHolder ->
+                        viewHolder.setImageBitmap(bitmap)
                         notifyItemChanged(index)
                     }
                 }

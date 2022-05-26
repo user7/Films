@@ -11,9 +11,14 @@ import com.geekbrains.films.model.*
 import com.geekbrains.films.model.repository.FilmRepository
 import com.geekbrains.films.model.repository.transport.rest.FilmSearchResultDTO
 
-class FilmsViewModel(private val filmRepository: FilmRepository) : ViewModel() {
-    private val handler = Handler(Looper.getMainLooper())
-    private val images = HashMap<ImageID, Bitmap>()
+class FilmsViewModel(
+    private val filmRepository: FilmRepository,
+    private val handler: Handler = Handler(Looper.getMainLooper()),
+) : ViewModel() {
+
+    private class BitmapHolder(var bitmap: Bitmap? = null, var shown: Boolean = false);
+
+    private val images = HashMap<ImageID, BitmapHolder>()
     private val mFilmList = MutableLiveData(Films())
     var filmList: LiveData<Films> = mFilmList
     fun getData() = filmList.value!!
@@ -25,16 +30,25 @@ class FilmsViewModel(private val filmRepository: FilmRepository) : ViewModel() {
     var appSettings: LiveData<AppSettings> = mAppSettings
 
     fun getImage(id: ImageID): Bitmap? {
-        val bitmap = images.getOrDefault(id, null)
-        if (bitmap == null) {
+        val bitmapHolder = images.getOrDefault(id, null)
+        if (bitmapHolder == null) {
+            images[id] = BitmapHolder()
             filmRepository.fetchImage(id) { bitmap ->
                 handler.post {
-                    images[id] = bitmap
+                    images.getOrDefault(id, null)?.bitmap = bitmap
                     mImageAvailable.postValue(id)
                 }
             }
         }
-        return bitmap
+        return bitmapHolder?.bitmap
+    }
+
+    fun needsShowing(id: ImageID) : Bitmap? {
+        val holder = images.getOrDefault(id, null)
+        if (holder?.bitmap == null || holder.shown)
+            return null
+        holder.shown = true
+        return holder.bitmap
     }
 
     fun findFilms(words: String) {
